@@ -8,7 +8,7 @@ from pathlib import Path
 import sounddevice as sd
 from google import genai
 from google.genai import types
-from ui import AssistantUI
+from ui import JarvisUI
 from memory.memory_manager import (
     load_memory, update_memory, format_memory_for_prompt,
     should_extract_memory, extract_memory
@@ -59,7 +59,7 @@ def _load_system_prompt() -> str:
         return PROMPT_PATH.read_text(encoding="utf-8")
     except Exception:
         return (
-            "You are an AI assistant. "
+            "You are Jarvis, an AI assistant. "
             "Be concise, direct, and always use the provided tools to complete tasks. "
             "Never simulate or guess results — always call the appropriate tool."
         )
@@ -447,11 +447,11 @@ TOOL_DECLARATIONS = [
     }
 },
     {
-    "name": "shutdown_assistant",
+    "name": "shutdown_jarvis",
     "description": (
         "Shuts down the assistant completely. "
         "Call this when the user expresses intent to end the conversation, "
-        "close the assistant, say goodbye, or stop the assistant. "
+        "close the assistant, say goodbye, or stop Jarvis. "
         "The user can say this in ANY language."
     ),
     "parameters": {
@@ -492,9 +492,9 @@ TOOL_DECLARATIONS = [
 ]
 
 
-class AssistantLive:
+class JarvisLive:
 
-    def __init__(self, ui: AssistantUI):
+    def __init__(self, ui: JarvisUI):
         self.ui             = ui
         self.session        = None
         self.audio_in_queue = None
@@ -579,7 +579,7 @@ class AssistantLive:
         name = fc.name
         args = dict(fc.args or {})
 
-        print(f"[ASSISTANT] 🔧 {name}  {args}")
+        print(f"[Jarvis] 🔧 {name}  {args}")
         self.ui.set_state("THINKING")
         if name == "save_memory":
             category = args.get("category", "notes")
@@ -683,7 +683,7 @@ class AssistantLive:
             elif name == "flight_finder":
                 r = await loop.run_in_executor(None, lambda: flight_finder(parameters=args, player=self.ui))
                 result = r or "Done."
-            elif name == "shutdown_assistant":
+            elif name == "shutdown_jarvis":
                 self.ui.write_log("SYS: Shutdown requested.")
                 self.speak("Goodbye, sir.")
 
@@ -704,7 +704,7 @@ class AssistantLive:
         if not self.ui.muted:
             self.ui.set_state("LISTENING")
 
-        print(f"[ASSISTANT] 📤 {name} → {str(result)[:80]}")
+        print(f"[Jarvis] 📤 {name} → {str(result)[:80]}")
 
         return types.FunctionResponse(
             id=fc.id, name=name,
@@ -717,7 +717,7 @@ class AssistantLive:
             await self.session.send_realtime_input(media=msg)
 
     async def _listen_audio(self):
-        print("[ASSISTANT] 🎤 Mic started")
+        print("[Jarvis] 🎤 Mic started")
         loop = asyncio.get_event_loop()
 
         def callback(indata, frames, time_info, status):
@@ -738,15 +738,15 @@ class AssistantLive:
                 blocksize=CHUNK_SIZE,
                 callback=callback,
             ):
-                print("[ASSISTANT] 🎤 Mic stream open")
+                print("[Jarvis] 🎤 Mic stream open")
                 while True:
                     await asyncio.sleep(0.1)
         except Exception as e:
-            print(f"[ASSISTANT] ❌ Mic: {e}")
+            print(f"[Jarvis] ❌ Mic: {e}")
             raise
 
     async def _receive_audio(self):
-        print("[ASSISTANT] 👂 Recv started")
+        print("[Jarvis] 👂 Recv started")
         out_buf, in_buf = [], []
 
         try:
@@ -780,7 +780,7 @@ class AssistantLive:
 
                             full_out = " ".join(out_buf).strip()
                             if full_out:
-                                self.ui.write_log(f"Assistant: {full_out}")
+                                self.ui.write_log(f"Jarvis: {full_out}")
                             out_buf = []
 
                             if full_in and len(full_in) > 5:
@@ -793,7 +793,7 @@ class AssistantLive:
                     if response.tool_call:
                         fn_responses = []
                         for fc in response.tool_call.function_calls:
-                            print(f"[ASSISTANT] 📞 {fc.name}")
+                            print(f"[Jarvis] 📞 {fc.name}")
                             fr = await self._execute_tool(fc)
                             fn_responses.append(fr)
                         await self.session.send_tool_response(
@@ -801,12 +801,12 @@ class AssistantLive:
                         )
 
         except Exception as e:
-            print(f"[ASSISTANT] ❌ Recv: {e}")
+            print(f"[Jarvis] ❌ Recv: {e}")
             traceback.print_exc()
             raise
 
     async def _play_audio(self):
-        print("[ASSISTANT] 🔊 Play started")
+        print("[Jarvis] 🔊 Play started")
         loop = asyncio.get_event_loop()
 
         stream = sd.RawOutputStream(
@@ -822,7 +822,7 @@ class AssistantLive:
                 self.set_speaking(True)
                 await asyncio.to_thread(stream.write, chunk)
         except Exception as e:
-            print(f"[ASSISTANT] ❌ Play: {e}")
+            print(f"[Jarvis] ❌ Play: {e}")
             raise
         finally:
             self.set_speaking(False)
@@ -837,7 +837,7 @@ class AssistantLive:
 
         while True:
             try:
-                print("[ASSISTANT] 🔌 Connecting...")
+                print("[Jarvis] 🔌 Connecting...")
                 self.ui.set_state("THINKING")
                 config = self._build_config()
 
@@ -850,9 +850,9 @@ class AssistantLive:
                     self.audio_in_queue = asyncio.Queue()
                     self.out_queue      = asyncio.Queue(maxsize=10)
 
-                    print("[ASSISTANT] ✅ Connected.")
+                    print("[Jarvis] ✅ Connected.")
                     self.ui.set_state("LISTENING")
-                    self.ui.write_log("SYS: Assistant online.")
+                    self.ui.write_log("SYS: Jarvis online.")
 
                     tg.create_task(self._send_realtime())
                     tg.create_task(self._listen_audio())
@@ -860,22 +860,22 @@ class AssistantLive:
                     tg.create_task(self._play_audio())
                     
             except Exception as e:
-                print(f"[ASSISTANT] ⚠️ {e}")
+                print(f"[Jarvis] ⚠️ {e}")
                 traceback.print_exc()
 
             self.set_speaking(False)
             self.ui.set_state("THINKING")
-            print("[ASSISTANT] 🔄 Reconnecting in 3s...")
+            print("[Jarvis] 🔄 Reconnecting in 3s...")
             await asyncio.sleep(3)
 
 def main():
-    ui = AssistantUI("face.png")
+    ui = JarvisUI("face.png")
 
     def runner():
         ui.wait_for_api_key()
-        assistant = AssistantLive(ui)
+        jarvis = JarvisLive(ui)
         try:
-            asyncio.run(assistant.run())
+            asyncio.run(jarvis.run())
         except KeyboardInterrupt:
             print("\n🔴 Shutting down...")
 
