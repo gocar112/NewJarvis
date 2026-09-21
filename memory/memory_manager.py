@@ -186,7 +186,7 @@ def extract_memory(user_text: str, assistant_text: str, api_key: str = "") -> di
             f"  notes         → anything else worth remembering (habits, schedule, etc.)\n\n"
             f"IMPORTANT:\n"
             f"- Be LIBERAL: if something MIGHT be worth remembering, include it.\n"
-            f"- Extract from BOTH user and Jarvis turns.\n"
+            f"- Extract from BOTH user and assistant turns.\n"
             f"- Skip: weather, reminders, search results, one-time commands.\n"
             f"- Use concise English values regardless of conversation language.\n\n"
             f"Format:\n"
