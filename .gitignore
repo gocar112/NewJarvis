@@ -1,0 +1,9 @@
+.python/
+.venv/
+.uv-cache/
+.playwright/
+__pycache__/
+*.py[cod]
+config/api_keys.json
+memory/long_term.json
+logs/

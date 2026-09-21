@@ -1,0 +1,14 @@
+-r requirements.txt
+# UI dependency missing from the upstream requirements.
+PyQt6
+# win10toast uses pkg_resources, removed in newer setuptools releases.
+setuptools<81
+# Dependencies used by the file and search actions.
+pdfplumber
+PyPDF2
+python-docx
+pandas
+openpyxl
+pydub
+python-pptx
+ddgs
