@@ -59,18 +59,18 @@ def _load_system_prompt() -> str:
         return PROMPT_PATH.read_text(encoding="utf-8")
     except Exception:
         return (
-            "You are JARVIS, Tony Stark's AI assistant. "
+            "You are an AI assistant. "
             "Be concise, direct, and always use the provided tools to complete tasks. "
             "Never simulate or guess results — always call the appropriate tool."
         )
     
 _last_memory_input = ""
 
-def _update_memory_async(user_text: str, jarvis_text: str) -> None:
+def _update_memory_async(user_text: str, assistant_text: str) -> None:
     global _last_memory_input
 
     user_text   = (user_text   or "").strip()
-    jarvis_text = (jarvis_text or "").strip()
+    assistant_text = (assistant_text or "").strip()
 
     if len(user_text) < 5 or user_text == _last_memory_input:
         return
@@ -78,9 +78,9 @@ def _update_memory_async(user_text: str, jarvis_text: str) -> None:
 
     try:
         api_key = _get_api_key()
-        if not should_extract_memory(user_text, jarvis_text, api_key):
+        if not should_extract_memory(user_text, assistant_text, api_key):
             return
-        data = extract_memory(user_text, jarvis_text, api_key)
+        data = extract_memory(user_text, assistant_text, api_key)
         if data:
             update_memory(data)
             print(f"[Memory] ✅ {list(data.keys())}")
@@ -451,7 +451,7 @@ TOOL_DECLARATIONS = [
     "description": (
         "Shuts down the assistant completely. "
         "Call this when the user expresses intent to end the conversation, "
-        "close the assistant, say goodbye, or stop Jarvis. "
+        "close the assistant, say goodbye, or stop the assistant. "
         "The user can say this in ANY language."
     ),
     "parameters": {
@@ -722,8 +722,8 @@ class JarvisLive:
 
         def callback(indata, frames, time_info, status):
             with self._speaking_lock:
-                jarvis_speaking = self._is_speaking
-            if not jarvis_speaking and not self.ui.muted:
+                assistant_speaking = self._is_speaking
+            if not assistant_speaking and not self.ui.muted:
                 data = indata.tobytes()
                 loop.call_soon_threadsafe(
                     self.out_queue.put_nowait,
@@ -780,7 +780,7 @@ class JarvisLive:
 
                             full_out = " ".join(out_buf).strip()
                             if full_out:
-                                self.ui.write_log(f"Jarvis: {full_out}")
+                                self.ui.write_log(f"Assistant: {full_out}")
                             out_buf = []
 
                             if full_in and len(full_in) > 5:
@@ -852,7 +852,7 @@ class JarvisLive:
 
                     print("[JARVIS] ✅ Connected.")
                     self.ui.set_state("LISTENING")
-                    self.ui.write_log("SYS: JARVIS online.")
+                    self.ui.write_log("SYS: Assistant online.")
 
                     tg.create_task(self._send_realtime())
                     tg.create_task(self._listen_audio())

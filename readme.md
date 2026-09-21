@@ -1,7 +1,6 @@
-# 🤖 MARK XXXIX-OR (39)
-### The Ultimate Cross-Platform Personal AI Assistant — By FatihMakes
+# 🤖 Personal AI Assistant
 
-> 📺 **[Watch the full setup video on YouTube](https://youtu.be/ldvDNzwnM8k)**
+### The Ultimate Cross-Platform Voice-Driven AI
 
 A real-time voice AI that can hear, see, understand, and control your computer — on any OS. Supporting Windows, macOS, and Linux. Local execution. Zero subscriptions. Engineered for total autonomy.
 
@@ -9,7 +8,7 @@ A real-time voice AI that can hear, see, understand, and control your computer �
 
 ## ✨ Overview
 
-MARK XXXIX-OR represents the pinnacle of the Jarvis series, evolving into a more flexible and robust system. It bridges the gap between the operating system and human intent. Through natural dialogue, Mark 39 analyzes your screen, processes uploaded documents, and executes complex workflows with a brand-new, adaptive interface.
+This AI assistant represents a flexible and robust system for bridging the gap between your operating system and your intent. Through natural dialogue, it analyzes your screen, processes uploaded documents, and executes complex workflows with an adaptive interface.
 
 It's not just an assistant — it's an extension of your digital life.
 
@@ -29,21 +28,21 @@ It's not just an assistant — it's an extension of your digital life.
 
 ---
 
-## 🆕 What's New in XXXIX-OR
+## ✨ Features
 
-- 📂 **Advanced File Handling** — New support for direct file uploads. Drop PDFs, source code, or images into the assistant to have them analyzed, summarized, or edited instantly.
-- 🎨 **Adaptive & Flexible UI** — A complete overhaul of the interface. The new UI is fully resizable and responsive, featuring transparency controls and customizable layouts to fit your workspace perfectly.
-- 🐧🍎 **Refined Cross-Platform Stability** — Major fixes for macOS and Linux compatibility. Core system actions are now more consistent across all three major operating systems.
-- ⚡ **Optimized Core Engine** — Significant performance boost in tool-calling logic and response generation, resulting in a 40% faster interaction speed.
-- 🔀 **OpenRouter Integration** — Selected action modules (web search, memory, flight finder, desktop control, and more) now route their LLM calls through OpenRouter's free-tier models. This significantly increases the effective request limit without any additional cost, while Gemini Live continues to handle real-time voice and tool-calling.
+- 📂 **Advanced File Handling** — Direct file uploads. Drop PDFs, source code, or images into the assistant to have them analyzed, summarized, or edited instantly.
+- 🎨 **Adaptive & Flexible UI** — Fully resizable and responsive interface with transparency controls and customizable layouts to fit your workspace.
+- 🐧🍎 **Cross-Platform Stability** — Optimized for Windows, macOS, and Linux. Core system actions are consistent across all three operating systems.
+- ⚡ **Optimized Core Engine** — Significant performance boost in tool-calling logic and response generation.
+- 🔀 **OpenRouter Integration** — Action modules (web search, memory, flight finder, desktop control, and more) route their LLM calls through OpenRouter's free-tier models for increased request limits.
 
 ---
 
 ## ⚡ Quick Start
 
 ```bash
-git clone https://github.com/FatihMakes/Mark-XXXIX-OR.git
-cd Mark-XXXIX-OR
+git clone https://github.com/gocar112/NewJarvis.git
+cd NewJarvis
 pip install -r requirements.txt
 playwright install
 python main.py
@@ -71,12 +70,12 @@ Licensed under **[Creative Commons BY-NC 4.0](https://creativecommons.org/licens
 
 ---
 
-## 👤 Connect with the Creator
+## 🚀 Getting Started
 
-Engineered by a developer building a real-world JARVIS-style assistant.
-⭐ **Star the repository to support the journey to Mark 100.**
+1. Clone the repository
+2. Install dependencies: `pip install -r requirements.txt`
+3. Install browser drivers: `playwright install`
+4. Add your API keys to `config/api_keys.json`
+5. Run: `python main.py`
 
-| Platform | Link |
-|---|---|
-| YouTube | [@FatihMakes](https://www.youtube.com/@FatihMakes) |
-| Instagram | [@fatihmakes](https://www.instagram.com/fatihmakes) |
+For detailed setup instructions, see `LOCAL-SETUP.md`.
