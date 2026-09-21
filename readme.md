@@ -50,7 +50,7 @@ It's not just an assistant — it's an extension of your digital life.
 | `requirements-windows.txt` | Windows-specific packages (Qt5, audio, file processing) |
 | `requirements-lock-windows.txt` | Pinned exact package versions for reproducibility |
 | `LOCAL-SETUP.md` | Step-by-step setup guide for this machine |
-| `Start-Jarvis.cmd` | Windows launcher — double-click to start |
+| `Jarvis.cmd` | Windows launcher — double-click to start |
 
 ### Action Modules (`actions/`)
 
@@ -130,4 +130,4 @@ Get your keys:
 4. Run: `python main.py`
 5. Enter API keys in the setup screen and click **INITIALISE SYSTEMS**
 
-For Windows, double-click **Start-Jarvis.cmd** or see `LOCAL-SETUP.md` for full setup details.
+For Windows, double-click **Jarvis.cmd** or see `LOCAL-SETUP.md` for full setup details.

@@ -2,7 +2,7 @@
 
 Setup and installation details for running the Personal AI Assistant locally.
 
-Double-click `Start-Jarvis.cmd` to start. It uses the private Python 3.12
+Double-click `Jarvis.cmd` to start. It uses the private Python 3.12
 environment in `.venv`, independent of the system Python.
 
 ## Initial Setup
